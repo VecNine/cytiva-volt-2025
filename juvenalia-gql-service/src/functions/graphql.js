@@ -101,18 +101,18 @@ input AddEventInput {
 // A map of functions which return data for the schema.
 const resolvers = {
     Query: {
-        events: (parent, args, contextValue, info) => {
+        events: (_parent, args, _contextValue, _info) => {
             if (args.type) {
                 return events.filter(event => event.type === args.type);
             }
             return events;
         },
-        event: (parent, args, contextValue, info) => {
+        event: (_parent, args, _contextValue, _info) => {
             return events.find(event => event.id === args.id);
         }
     },
     Mutation: {
-        addEvent: (parent, args, contextValue, info) => {
+        addEvent: (_parent, args, _contextValue, _info) => {
             const input = args.input;
             const newEvent = {
                 id: (events.length + 1).toString(),
