@@ -78,4 +78,36 @@ test.describe('Juvenalia GraphQL API tests', () => {
         expect(response.status()).toBe(400);
         expect(responseBody.errors).toBeDefined();
     });
+
+    test('200 - test testu', async({request}) => {
+        const response = await request.post(apiUrl, {
+            data: {
+                query: `
+                query Events {
+                    events {
+                        id
+                        date
+                    }
+                }`
+            }
+        });
+
+        const responseBody = await response.json();
+
+        expect(response.status()).toBe(200);
+
+        expect(responseBody.data).toBeDefined();
+        expect(responseBody.data.events).toBeDefined()
+        expect(responseBody.data.events.length).toBe(9);
+
+        responseBody.data.events.forEach((event: { id: string; date: string }) => {
+            expect(typeof event.id).toBe('string');
+            expect(typeof event.date).toBe('string');
+
+            expect(new Date(event.date).toString()).not.toBe('Invalid Date');
+        });
+
+    })
+
 });
+
