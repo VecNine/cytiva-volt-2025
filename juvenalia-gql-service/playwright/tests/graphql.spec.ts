@@ -130,7 +130,7 @@ test.describe('Juvenalia GraphQL API tests', () => {
         const events = responseBody.data.eventbyday;
         expect(events).toBeDefined();
         expect(Array.isArray(events)).toBe(true);
-        //
+
         events.forEach((event: {id: string; name: string; date:string }) => {
             const eventDateOnly = extractDateOnly(event.date);
 
@@ -139,7 +139,7 @@ test.describe('Juvenalia GraphQL API tests', () => {
             expect(typeof event.name).toBe('string');
         })
     })
-    //
+
     function extractDateOnly(fullDateTimeString: string): string {
         if (!fullDateTimeString || fullDateTimeString.indexOf('T') === -1) {
             return fullDateTimeString;
