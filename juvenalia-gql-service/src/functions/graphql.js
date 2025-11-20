@@ -9,6 +9,7 @@ const typeDefs = `#graphql
   type Query {
     events(type: String): [Event]!
     event(id: ID!): Event
+    eventbyday(date:String):[Event]!
   }
 
   type Mutation {
@@ -21,15 +22,15 @@ const typeDefs = `#graphql
   description: String!
   type: String!
   date: String!
- # eventUrl: String!
- # location: Location!
- # artists: [Artist]!
- # tickets: [Ticket]!
- # ticketsUrl: String!
- # tags: [String]!
- # organizer: Organizer!
- # registrationRequired: Boolean!
- # accessibility: Accessibility!
+  eventUrl: String!
+  location: Location!
+  artists: [Artist]!
+  tickets: [Ticket]!
+  ticketsUrl: String!
+  tags: [String]!
+  organizer: Organizer!
+  registrationRequired: Boolean!
+  accessibility: Accessibility!
 }
 
 type Location {
@@ -109,7 +110,12 @@ const resolvers = {
         },
         event: (_parent, args, _contextValue, _info) => {
             return events.find(event => event.id === args.id);
+        },
+        eventbyday: (_parent,args,_contextValue,_info)=>{
+          const date=args.date;
+          return events.filter(event => event.date.startsWith(date));
         }
+
     },
     Mutation: {
         addEvent: (_parent, args, _contextValue, _info) => {
