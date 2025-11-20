@@ -108,6 +108,44 @@ test.describe('Juvenalia GraphQL API tests', () => {
         });
 
     })
+    test('200 - filtrowanie eventbyday 2025-05-09', async ({request }) => {
+        const targetDate = "2025-05-09";
+        const query = `
+        query Eventbyday2 {
+        eventbyday(date: "${targetDate}") {
+        id
+        name
+        date
+        }
+    }`
+        const response = await request.post(apiUrl, {
+            data: {
+                query: query
+            }
+        })
+        const responseBody = await response.json();
+        expect(response.status()).toBe(200);
+        expect(responseBody.data).toBeDefined();
 
+        const events = responseBody.data.eventbyday;
+        expect(events).toBeDefined();
+        expect(Array.isArray(events)).toBe(true);
+
+        events.forEach((event: {id: string; name: string; date:string }) => {
+            const eventDateOnly = extractDateOnly(event.date);
+
+            expect(eventDateOnly).toBe(targetDate);
+
+            expect(typeof event.id).toBe('string');
+            expect(typeof event.name).toBe('string');
+        })
+    })
+    function extractDateOnly(fullDateTimeString: string): string {
+        if (!fullDateTimeString || fullDateTimeString.indexOf('T') === -1) {
+            return fullDateTimeString;
+        }
+        const datePart = fullDateTimeString.split('T')[0];
+        return datePart;
+    }
 });
 
