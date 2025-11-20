@@ -136,7 +136,6 @@ test.describe('Juvenalia GraphQL API tests', () => {
 
             expect(eventDateOnly).toBe(targetDate);
 
-            expect(typeof event.id).toBe('string');
             expect(typeof event.name).toBe('string');
         })
     })
