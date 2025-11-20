@@ -10,6 +10,7 @@ const typeDefs = `#graphql
     events(type: String): [Event]!
     event(id: ID!): Event
     eventbyday(date:String):[Event]!
+    artistsByDate(date:String):[Artist]!
   }
 
   type Mutation {
@@ -114,7 +115,13 @@ const resolvers = {
         eventbyday: (_parent,args,_contextValue,_info)=>{
           const date=args.date;
           return events.filter(event => event.date.startsWith(date));
-        }
+        },
+        artistsByDate: (_parent, args, _contextValue, _info) => {
+          const searchDate = args.date; 
+          const matchingEvents = events.filter(event => event.date.startsWith(searchDate));
+          const allArtists = matchingEvents.flatMap(event => event.artists);
+          return allArtists;
+    }
 
     },
     Mutation: {
