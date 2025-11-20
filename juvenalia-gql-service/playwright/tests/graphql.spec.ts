@@ -139,6 +139,7 @@ test.describe('Juvenalia GraphQL API tests', () => {
             expect(typeof event.name).toBe('string');
         })
     })
+    //
     function extractDateOnly(fullDateTimeString: string): string {
         if (!fullDateTimeString || fullDateTimeString.indexOf('T') === -1) {
             return fullDateTimeString;
